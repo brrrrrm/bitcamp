@@ -1,8 +1,8 @@
-//변수 - 메모리 종류와 변수 선언
+// 변수
 package step02;
 
-public class Exam03_1{
-    public static void main(String []args){
+class Exam03_1 {
+    public static void main(String[] args){
         byte b;
         short s;
         int i;

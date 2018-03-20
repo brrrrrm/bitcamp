@@ -1,8 +1,8 @@
-// 형변환 - 메모리 크기가 다른 변수의 값을 저장할 때 
+// 형변환 - 크기가 다른 변수의 값을 저장할때
 package step02;
 
-public class Exam08_1{
-    public static void main(String[] args){
+class Exam08_1 {
+    public static void main(String[] args) {
         byte b = 100;
         short s = 100;
         int i = 100;
@@ -15,11 +15,10 @@ public class Exam08_1{
         long l2;
         char c2;
 
-        //큰 메모리의 값을 작은 메모리에 넣을 수 없다(변수에 든 값이 작은 값이라도)
-        b2 = s;
-        s2 = i;
-        i2 = l; 
-        c2 = s; //같은 2바이트라도 유효범위가 다름
-
+        // 큰 변수의 값을 작은 변수에 넣을 수 없다.
+//        b2 = s;
+//        s2 = i;
+//        i2 = l;
+//        c2 = s;
     }
 }
