@@ -5,7 +5,5 @@ public class A2 extends A {
     
     void print2() {
         System.out.printf("'%s(%d)'님 반갑습니다!\n", this.name, this.age);
-        
-        
     }
 }

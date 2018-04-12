@@ -1,9 +1,8 @@
 package step11.ex11;
 
 public class X2 extends X {
-    
     @Override
-    void m1( ) {
-        System.out.println("m1() in X2");
+    void m1() {
+        System.out.println("X2의 m1()");
     }
 }

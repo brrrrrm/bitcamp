@@ -1,21 +1,26 @@
+// Controller 규칙에 따라 메서드 작성
 package bitcamp.java106.pms.controller;
 
 import java.sql.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 
+import bitcamp.java106.pms.annotation.Component;
 import bitcamp.java106.pms.dao.BoardDao;
 import bitcamp.java106.pms.domain.Board;
 import bitcamp.java106.pms.util.Console;
 
-public class BoardController {
+@Component("board")
+
+public class BoardController implements Controller {
     Scanner keyScan;
-
-    BoardDao boardDao = new BoardDao();
-
-    public BoardController(Scanner scanner) {
+    BoardDao boardDao;
+    
+    public BoardController(Scanner scanner, BoardDao boardDao) {
         this.keyScan = scanner;
+        this.boardDao = boardDao;
     }
-
+    
     public void service(String menu, String option) {
         if (menu.equals("board/add")) {
             this.onBoardAdd();
@@ -50,8 +55,9 @@ public class BoardController {
 
     void onBoardList() {
         System.out.println("[게시물 목록]");
-        Board[] list = boardDao.list();
-        for (Board board : list) {
+        Iterator<Board> iterator = boardDao.list();
+        while (iterator.hasNext()) {
+            Board board = iterator.next();
             System.out.printf("%d, %s, %s\n",
                 board.getNo(), board.getTitle(), board.getCreatedDate());
         }
@@ -63,9 +69,9 @@ public class BoardController {
             System.out.println("번호를 입력하시기 바랍니다.");
             return;
         }
-
+        
         Board board = boardDao.get(Integer.parseInt(option));
-
+        
         if (board == null) {
             System.out.println("유효하지 않은 게시물 번호입니다.");
         } else {
@@ -81,9 +87,9 @@ public class BoardController {
             System.out.println("번호를 입력하시기 바랍니다.");
             return;
         }
-
+        
         Board board = boardDao.get(Integer.parseInt(option));
-
+        
         if (board == null) {
             System.out.println("유효하지 않은 게시물 번호입니다.");
         } else {
@@ -94,7 +100,9 @@ public class BoardController {
             System.out.printf("설명(%s)? ", board.getContent());
             updateBoard.setContent(this.keyScan.nextLine());
             updateBoard.setCreatedDate(board.getCreatedDate());
-            boardDao.update(updateBoard);
+            
+            int index = boardDao.indexOf(board.getNo());
+            boardDao.update(index, updateBoard);
             System.out.println("변경하였습니다.");
         }
     }
@@ -103,12 +111,12 @@ public class BoardController {
         System.out.println("[게시물 삭제]");
         if (option == null) {
             System.out.println("번호를 입력하시기 바랍니다.");
-            return;
+            return; 
         }
-
+        
         int i = Integer.parseInt(option);
         Board board = boardDao.get(i);
-
+        
         if (board == null) {
             System.out.println("유효하지 않은 게시물 번호입니다.");
         } else {
@@ -118,9 +126,10 @@ public class BoardController {
             }
         }
     }
-
+    
 }
 
+//ver 22 - BoardDao 변경 사항에 맞춰 이 클래스를 변경한다.
 // ver 18 - BoardDao 변경 사항에 맞춰 이 클래스를 변경한다.
 // ver 16 - 인스턴스 변수를 직접 사용하는 대신 겟터, 셋터 사용.
 // ver 14 - BoardDao를 사용하여 게시물 데이터를 관리한다.
