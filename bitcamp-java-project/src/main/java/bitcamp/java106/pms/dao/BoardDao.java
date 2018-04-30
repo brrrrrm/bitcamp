@@ -1,55 +1,70 @@
 package bitcamp.java106.pms.dao;
 
-import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import bitcamp.java106.pms.annotation.Component;
 import bitcamp.java106.pms.domain.Board;
 
+@Component
 public class BoardDao {
-    private LinkedList<Board> collection = new LinkedList<>();
     
-    public void insert(Board board) {
-        this.collection.add(board);
+    SqlSessionFactory sqlSessionFactory;
+    
+    public BoardDao(SqlSessionFactory sqlSessionFactory) {
+        this.sqlSessionFactory = sqlSessionFactory;
     }
     
-    public Board[] list() {
-        Board[] arr = new Board[this.collection.size()];
-        for (int i = 0; i < this.collection.size(); i++) 
-            arr[i] = this.collection.get(i);
-        return arr;
-    }
-    
-    public Board get(int no) {
-        int index = this.getBoardIndex(no);
-        if (index < 0) 
-            return null;
-        return collection.get(index);
-    }
-    
-    public void update(Board board) {
-        int index = this.getBoardIndex(board.getNo());
-        if (index < 0) 
-            return;
-        collection.set(index, board);
-    }
-    
-    public void delete(int no) {
-        int index = this.getBoardIndex(no);
-        if (index < 0) 
-            return;
-        collection.remove(index);
-    }
-    
-    private int getBoardIndex(int no) {
-        for (int i = 0; i < collection.size(); i++) {
-            Board originBoard = collection.get(i);
-            if (originBoard.getNo() == no) {
-                return i;
-            }
+    public int delete(int no) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.delete(
+                    "bitcamp.java106.pms.dao.BoardDao.delete", no);
+            sqlSession.commit();
+            return count;
         }
-        return -1;
+    }
+    
+    public List<Board> selectList() throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectList(
+                    "bitcamp.java106.pms.dao.BoardDao.selectList");
+        }
+    }
+
+    public int insert(Board board) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.insert(
+                    "bitcamp.java106.pms.dao.BoardDao.insert", board);
+            sqlSession.commit();
+            return count;
+        }
+    }
+
+    public int update(Board board) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.update(
+                    "bitcamp.java106.pms.dao.BoardDao.update", board);
+            sqlSession.commit();
+            return count;
+        }
+    }
+
+    public Board selectOne(int no) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectOne(
+                    "bitcamp.java106.pms.dao.BoardDao.selectOne", no);
+        }  
     }
 }
 
+//ver 33 - Mybatis 적용 
+//ver 32 - DB 커넥션 풀 적용
+//ver 31 - JDBC API 적용
+//ver 24 - File I/O 적용
+//ver 23 - @Component 애노테이션을 붙인다.
+//ver 22 - 추상 클래스 AbstractDao를 상속 받는다.
 //ver 19 - 우리 만든 ArrayList 대신 java.util.LinkedList를 사용하여 목록을 다룬다. 
 //ver 18 - ArrayList를 이용하여 인스턴스(의 주소) 목록을 다룬다. 
 // ver 16 - 인스턴스 변수를 직접 사용하는 대신 겟터, 셋터 사용.

@@ -1,55 +1,70 @@
 package bitcamp.java106.pms.dao;
 
-import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import bitcamp.java106.pms.annotation.Component;
 import bitcamp.java106.pms.domain.Team;
 
+@Component
 public class TeamDao {
+
+    SqlSessionFactory sqlSessionFactory;
     
-    private LinkedList<Team> collection = new LinkedList<>();
-    
-    public void insert(Team team) {
-        collection.add(team);
+    public TeamDao(SqlSessionFactory sqlSessionFactory) {
+        this.sqlSessionFactory = sqlSessionFactory;
     }
     
-    public Team[] list() {
-        Team[] arr = new Team[collection.size()];
-        for (int i = 0; i < collection.size(); i++) 
-            arr[i] = collection.get(i);
-        return arr;
+    public int delete(String name) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.delete(
+                    "bitcamp.java106.pms.dao.TeamDao.delete", name);
+            sqlSession.commit();
+            return count;
+        } 
     }
     
-    public Team get(String name) {
-        int i;
-        if ((i = this.getTeamIndex(name)) != -1)
-            return collection.get(i);
-        return null;
-    }
-    
-    public void update(Team team) {
-        int i;
-        if ((i = this.getTeamIndex(team.getName())) != -1)
-            collection.set(i, team);
-    }
-    
-    public void delete(String name) {
-        int i;
-        if ((i = this.getTeamIndex(name)) != -1) 
-            collection.remove(i);
-    }
-    
-    private int getTeamIndex(String name) {
-        for (int i = 0; i < collection.size(); i++) {
-            if (name.toLowerCase().equals(
-                   collection.get(i).getName().toLowerCase())) {
-                return i;
-            }
+    public List<Team> selectList() throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectList(
+                    "bitcamp.java106.pms.dao.TeamDao.selectList");
         }
-        return -1;
     }
 
+    public int insert(Team team) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.insert(
+                    "bitcamp.java106.pms.dao.TeamDao.insert", team);
+            sqlSession.commit();
+            return count;
+        }
+    }
+
+    public int update(Team team) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.update(
+                    "bitcamp.java106.pms.dao.TeamDao.update", team);
+            sqlSession.commit();
+            return count;
+        }
+    }
+
+    public Team selectOne(String name) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectOne(
+                    "bitcamp.java106.pms.dao.TeamDao.selectOne", name);
+        }
+    }    
 }
 
+//ver 33 - Mybatis 적용 
+//ver 32 - DB 커넥션 풀 적용
+//ver 31 - JDBC API 적용
+//ver 24 - File I/O 적용
+//ver 23 - @Component 애노테이션을 붙인다.
+//ver 22 - 추상 클래스 AbstractDao를 상속 받는다.
 //ver 19 - 우리 만든 ArrayList 대신 java.util.LinkedList를 사용하여 목록을 다룬다. 
 //ver 18 - ArrayList 클래스를 적용하여 객체(의 주소) 목록을 관리한다.
 //ver 16 - 인스턴스 변수를 직접 사용하는 대신 겟터, 셋터 사용.

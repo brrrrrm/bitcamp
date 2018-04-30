@@ -5,7 +5,7 @@ public class Calculator {
         return a + b;
     }
     
-    static float plus (float a, float b) {
+    static float plus(float a, float b) {
         return a + b;
     }
     
@@ -14,4 +14,11 @@ public class Calculator {
         int v2 = Integer.parseInt(b);
         return v1 + v2;
     }
+    
 }
+
+
+
+
+
+

@@ -1,5 +1,21 @@
 # 자바 프로젝트 
 
+drop table pms_board;
+
+create table pms_member(
+    mid varchar(20) not null,
+    email varchar(255) not null,
+    pwd varchar(100) not null
+);
+
+alter table pms_member
+    add constraint pms_member_pk primary key (mid);
+    
+    
+    
+pms_member 테이블 생성
+
+
 ## src17 - 팀 작업을 관리할 수 있는 CRUD 기능 추가
 - 학습목표
     - 기존에 배운 문법을 활용하는 방법을 익힌다.

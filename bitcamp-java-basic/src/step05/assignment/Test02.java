@@ -2,31 +2,32 @@ package step05.assignment;
 
 import java.util.Scanner;
 
-class test02 {
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        System.out.print("밑변 길이? ");
-        int len = sc.nextInt();
-        int i = 1;
-        while(i <= len){
-            int j = 1;
-            while(j <= i){
+public class Test02 {
+    public static void main(String[] args) {
+        Scanner keyScan = new Scanner(System.in);
+        System.out.print("가로 길이? ");
+        int len = keyScan.nextInt();
+
+        int count = 1;
+        while (count <= len) {
+            int starCnt = 1;
+            while (starCnt <= count) {
                 System.out.print("*");
-                j++;
+                starCnt++;
             }
             System.out.println();
-            i++;
+            count++;
         }
 
-        i = len - 1;
-        while(i >= 1){
-            int j = 1;
-            while(j <= i){
+        count = len - 1;
+        while (count >= 1) {
+            int starCnt = 1;
+            while (starCnt <= count) {
                 System.out.print("*");
-                j++;
+                starCnt++;
             }
             System.out.println();
-            i--;
+            count--;
         }
     }
 }

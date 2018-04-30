@@ -2,19 +2,19 @@ package step05.assignment;
 
 import java.util.Scanner;
 
-class test01 {
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        System.out.print("밑변 길이? ");
-        int N = sc.nextInt();
+public class test01 {
+    public static void main(String[] args) {
+        Scanner keyScan = new Scanner(System.in);
+        System.out.print("밑변의 길이? ");
+        int len = keyScan.nextInt();
+
         int count = 1;
-        int i = 1;
-        while(count <= N){
-            while(i <= count){
+        while (count <= len) {
+            int starCnt = 1;
+            while (starCnt <= count) {
                 System.out.print("*");
-                i++;
+                starCnt++;
             }
-            i = 1;
             System.out.println();
             count++;
         }

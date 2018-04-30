@@ -5,5 +5,4 @@ public class C {
     protected void m2() {}
     void m3() {}
     public void m4() {}
-
 }

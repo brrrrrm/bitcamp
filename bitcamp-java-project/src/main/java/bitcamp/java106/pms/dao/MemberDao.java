@@ -1,59 +1,70 @@
 package bitcamp.java106.pms.dao;
 
-import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import bitcamp.java106.pms.annotation.Component;
 import bitcamp.java106.pms.domain.Member;
 
+@Component
 public class MemberDao {
+
+    SqlSessionFactory sqlSessionFactory;
     
-    private LinkedList<Member> collection = new LinkedList<>();
-    
-    public void insert(Member member) {
-        collection.add(member);
+    public MemberDao(SqlSessionFactory sqlSessionFactory) {
+        this.sqlSessionFactory = sqlSessionFactory;
     }
-    
-    public Member[] list() {
-        Member[] arr = new Member[collection.size()];
-        for (int i = 0; i < collection.size(); i++)
-            arr[i] = collection.get(i);
-        return arr;
-    }
-    
-    public Member get(String id) {
-        int index = this.getMemberIndex(id);
-        if (index < 0)
-            return null;
-        return collection.get(index);
-    }
-    
-    public void update(Member member) {
-        int index = this.getMemberIndex(member.getId());
-        if (index < 0)
-            return;
-        collection.set(index, member);
-    }
-    
-    public void delete(String id) {
-        int index = this.getMemberIndex(id);
-        if (index < 0)
-            return;
-        collection.remove(index);
-    }
-    
-    // 다음 메서드는 내부에서만 사용할 것이기 때문에 공개하지 않는다.
-    private int getMemberIndex(String id) {
-        for (int i = 0; i < collection.size(); i++) {
-            Member originMember = collection.get(i);
-            if (originMember.getId().toLowerCase().equals(id.toLowerCase())) {
-                return i;
-            }
+        
+    public int delete(String id) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.delete(
+                    "bitcamp.java106.pms.dao.MemberDao.delete", id);
+            sqlSession.commit();
+            return count;
         }
-        return -1;
     }
     
-    
+    public List<Member> selectList() throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectList(
+                    "bitcamp.java106.pms.dao.MemberDao.selectList");
+        }
+    }
+
+    public int insert(Member member) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.insert(
+                    "bitcamp.java106.pms.dao.MemberDao.insert", member);
+            sqlSession.commit();
+            return count;
+        }
+    }
+
+    public int update(Member member) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            int count = sqlSession.update(
+                    "bitcamp.java106.pms.dao.MemberDao.update", member);
+            sqlSession.commit();
+            return count;
+        }
+    }
+
+    public Member selectOne(String id) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectOne(
+                    "bitcamp.java106.pms.dao.MemberDao.selectOne", id);
+        }   
+    }    
 }
 
+//ver 33 - Mybatis 적용
+//ver 32 - DB 커넥션 풀 적용
+//ver 31 - JDBC API 적용
+//ver 24 - File I/O 적용
+//ver 23 - @Component 애노테이션을 붙인다.
+//ver 22 - 추상 클래스 AbstractDao를 상속 받는다.
 //ver 19 - 우리 만든 ArrayList 대신 java.util.LinkedList를 사용하여 목록을 다룬다. 
 //ver 18 - ArrayList를 사용하여 객체(의 주소) 목록을 관리한다.
 //ver 16 - 인스턴스 변수를 직접 사용하는 대신 겟터, 셋터 사용.
