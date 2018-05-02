@@ -1,5 +1,6 @@
 package bitcamp.java106.pms.dao;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -58,6 +59,24 @@ public class ClassroomDao {
 //ver 31 - JDBC API 적용
 //ver 24 - File I/O 적용
 //ver 23 - @Component 애노테이션을 붙인다.
+=======
+import bitcamp.java106.pms.annotation.Component;
+import bitcamp.java106.pms.domain.Classroom;
+@Component
+public class ClassroomDao extends AbstractDao<Classroom> {
+    
+    public int indexOf(Object key) {
+        int classroomNo = (Integer) key;
+        for (int i = 0; i < collection.size(); i++) {
+            if (collection.get(i).getNo() == classroomNo) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
 //ver 22 - 추상 클래스 AbstractDao를 상속 받는다.
 //ver 20 - 클래스 추가
 

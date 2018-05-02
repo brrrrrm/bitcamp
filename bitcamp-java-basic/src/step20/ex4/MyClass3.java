@@ -2,7 +2,11 @@
 package step20.ex4;
 
 //@MyAnnotation3(value="홍길동",tel="222-2222") // OK!
+<<<<<<< HEAD
 //@MyAnnotation3("홍길동",tel="222-2222") // value 외 다른 프로퍼티 값도 지정할 경우,
+=======
+@MyAnnotation3("홍길동",tel="222-2222") // value 외 다른 프로퍼티 값도 지정할 경우,
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
                                       // value 이름 생략 불가!
                                       // value 값만 지정할 때 생략 가능!
 public class MyClass3 {

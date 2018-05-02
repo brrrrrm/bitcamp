@@ -5,7 +5,11 @@ package step20.ex6;
 @MyAnnotation // OK!
 public class MyClass {
     
+<<<<<<< HEAD
 //    @MyAnnotation int i; // 컴파일 오류!
+=======
+    @MyAnnotation int i; // 컴파일 오류!
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
     
     @MyAnnotation public void m() {} // OK!
 }

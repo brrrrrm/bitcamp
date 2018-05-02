@@ -1,5 +1,6 @@
 package bitcamp.java106.pms.dao;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -48,6 +49,20 @@ public class BoardDao {
                     "bitcamp.java106.pms.dao.BoardDao.update", board);
             sqlSession.commit();
             return count;
+=======
+import bitcamp.java106.pms.annotation.Component;
+import bitcamp.java106.pms.domain.Board;
+@Component
+public class BoardDao extends AbstractDao<Board> {
+    
+    public int indexOf(Object key) {
+        int no = (Integer) key; // Integer ==> int : auto-unboxing
+        for (int i = 0; i < collection.size(); i++) {
+            Board originBoard = collection.get(i);
+            if (originBoard.getNo() == no) {
+                return i;
+            }
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
         }
     }
 
@@ -59,11 +74,14 @@ public class BoardDao {
     }
 }
 
+<<<<<<< HEAD
 //ver 33 - Mybatis 적용 
 //ver 32 - DB 커넥션 풀 적용
 //ver 31 - JDBC API 적용
 //ver 24 - File I/O 적용
 //ver 23 - @Component 애노테이션을 붙인다.
+=======
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
 //ver 22 - 추상 클래스 AbstractDao를 상속 받는다.
 //ver 19 - 우리 만든 ArrayList 대신 java.util.LinkedList를 사용하여 목록을 다룬다. 
 //ver 18 - ArrayList를 이용하여 인스턴스(의 주소) 목록을 다룬다. 

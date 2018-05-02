@@ -3,10 +3,14 @@ package bitcamp.java106.pms.dao;
 import java.util.HashMap;
 import java.util.List;
 
+<<<<<<< HEAD
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Component;
 
+=======
+import bitcamp.java106.pms.annotation.Component;
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
 @Component
 public class TeamMemberDao {
 

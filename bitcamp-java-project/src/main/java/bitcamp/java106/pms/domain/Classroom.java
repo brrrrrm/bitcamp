@@ -3,15 +3,28 @@ package bitcamp.java106.pms.domain;
 import java.io.Serializable;
 import java.sql.Date;
 
+<<<<<<< HEAD
 public class Classroom implements Serializable {
     private static final long serialVersionUID = 1L;
 
+=======
+public class Classroom {
+    private static int count;
+    
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
     private int no;
     private String title;
     private Date startDate;
     private Date endDate;
     private String room;
     
+<<<<<<< HEAD
+=======
+    public Classroom() {
+        this.no = ++count;
+    }
+    
+>>>>>>> 16a2630253d40c6d57244a06acd06b74495b9c9a
     @Override
     public String toString() {
         return "Classroom [no=" + no + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
