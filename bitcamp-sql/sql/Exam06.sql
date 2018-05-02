@@ -1,4 +1,5 @@
-# select 테스트 용 데이터 준비 
+# select 테스트 용 데이터 준비
+
 /* 강의실 데이터 준비 */
 insert into room(rno, loc, name, qnty) values(1, '강남', '501', 30);
 insert into room(rno, loc, name, qnty) values(2, '강남', '502', 30);
@@ -110,3 +111,18 @@ insert into lect_appl(lano, lno, mno, rdt) values(5, 2, 100, '2017-12-7');
 insert into lect_appl(lano, lno, mno, rdt) values(6, 3, 101, '2017-10-8');
 insert into lect_appl(lano, lno, mno, rdt) values(7, 3, 102, '2017-11-9');
 insert into lect_appl(lano, lno, mno, rdt) values(8, 3, 104, '2017-11-11');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

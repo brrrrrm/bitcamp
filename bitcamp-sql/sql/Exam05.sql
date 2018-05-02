@@ -1,4 +1,5 @@
-# select 테스트용 테이블 준비
+# select 테스트 용 테이블 준비
+
 -- 수강생
 DROP TABLE IF EXISTS stnt RESTRICT;
 
@@ -380,5 +381,3 @@ ALTER TABLE lect_tcher
         REFERENCES lect ( -- 강의
             lno -- 강의번호
         );
-        
-        

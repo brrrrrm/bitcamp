@@ -1,7 +1,8 @@
 # DQL(Data Query Language)
 데이터를 조회할 때 사용하는 문법
 
-테스트용 테이블
+## 테스트 용 테이블 및 데이터 준비
+```
 create table test1 (
   no int primary key auto_increment,
   name varchar(20) not null,
@@ -34,9 +35,7 @@ select 컬럼명,컬럼명 from 테이블;
 select no, name, tel from test1;
 
 /* 가상의 컬럼 값을 조회하기*/
-select no, concat(name,'(',tel,')'), 'title' 
-from test1 
-where tel = 'Y';
+select no, concat(name,'(',class,')') from test1;
 ```
 
 ### 조회하는 컬럼에 별명 붙이기 
@@ -49,16 +48,14 @@ where tel = 'Y';
 select 컬럼명 [as] 별명 ...
 select 
     no as num, 
-    concat(name,'(',tel,')') as title, 
-    'working' as work 
-from test1 
-where working = 'Y';
+    concat(name,'(',class,')') as title 
+from test1; 
 
 /* as를 생략해도 된다.*/
 select 
-    no num, 
-    concat(name,'(',class,')') title
-from test1 
+    no as num, 
+    concat(name,'(',class,')') title 
+from test1; 
 ``` 
 
 ### 조회할 때 조건 지정하기
@@ -66,10 +63,9 @@ from test1
 
 ```
 select ... from ... where 조건...
-
 select * 
 from test1
-where no >= 5;
+where no > 5;
 ```
 
 ## 연산자
@@ -108,10 +104,9 @@ where working <> 'Y';
 update test1 set 
     tel = '1111'
 where (no % 2) = 0;
-= 같다
 
 /* 학생 번호가 3의 배수인 경우 전화번호를 '2222'로 변경하라*/
-update test1 set
+update test16 set
   tel = '2222'
 where (no % 3) = 0;
 
@@ -129,7 +124,7 @@ where tel is not null;
 select *
 from test1
 where not (tel is null);
-괄호 빼도 된다
+
 /* 전화 번호가 없는 학생만 조회하라!*/
 /* => null인지 여부를 가릴 때는 = 연산자가 아닌 is 연산자를 사용해야 한다.*/
 select *
@@ -280,12 +275,12 @@ select datediff(curdate(), '2018-3-19');
 
 /* 날짜에서 특정 형식으로 값을 추출하기 */
 date_format(날짜, 형식)
-select date_format('2017-9-7', '%m/%e/%Y'); /* 09/7/2017 */
-select date_format('2017-9-7', '%M/%d/%y'); /* September/07/17 */
-select date_format('2017-9-7', '%W %w %a'); /* Thursday 4 Thu */
-select date_format('2017-9-7', '%M %b'); /* September Sep */
-select date_format('2017-9-7 13:5:45', '%p %h %H %l'); /* PM 01 13 1 */
-select date_format('2017-9-7 13:5:45', '%i %s'); /* 05 45 */
+select date_format(now(), '%m/%e/%Y'); /* 09/7/2017 */
+select date_format(now(), '%M/%d/%y'); /* September/07/17 */
+select date_format(now(), '%W %w %a'); /* Thursday 4 Thu */
+select date_format(now(), '%M %b'); /* September Sep */
+select date_format(now(), '%p %h %H %l'); /* PM 01 13 1 */
+select date_format(now(), '%i %s'); /* 05 45 */
 
 /* 문자열을 날짜 값으로 바꾸기 */
 select str_to_date('11/22/2017', '%m/%d/%Y');
@@ -302,3 +297,22 @@ insert into test1 (title, regdt) values('bbbb', '11/22/2017');
 insert into test1 (title, regdt) 
   values('bbbb', str_to_date('11/22/2017', '%m/%d/%Y'));
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

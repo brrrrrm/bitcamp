@@ -1,34 +1,31 @@
-#DDL(Data Definition Langauge)
-SQL 문에서 DB객체(테이블, 뷰, 함수, 트리거 등)를 생성, 변경, 삭제하는 명령이다. 
-
+# DDL(Data Definition Language)
+DB 객체(테이블, 뷰, 함수, 트리거 등)를 생성, 변경, 삭제하는 SQL 명령이다.
 
 - 데이터베이스(database) = 스키마(schema)
 - 테이블(table)
 - 뷰(view)
 - 트리거(trigger)
   - 특정 조건에서 자동으로 호출되는 함수
-  - 특정 조건? SQL 실행 전후 등
+  - 특정 조건? SQL 실행 전/후 등
 - 함수(function)
 - 프로시저(procedure)
 - 인덱스(index)
 
-## 데이터 베이스
+## 데이터베이스
 데이터베이스 생성
-> create database 데이터베이스명
-  옵션들...;
+> create database 데이터베이스명 옵션들...;
 
 데이터베이스 삭제
 > drop database 데이터베이스명;
 
 데이터베이스 변경
-> alter database 데이터베이스명 
-  옵션들...;
+> alter database 데이터베이스명 옵션들...;
   
 ## 테이블
 테이블 생성
 > create table 테이블명 (
   컬럼명 타입 NULL여부 옵션,
-  컬럼명 타입 NULL여부 옵션 ,
+  컬럼명 타입 NULL여부 옵션,
   ...
   컬럼명 타입 NULL여부 옵션
   );
@@ -44,21 +41,22 @@ SQL 문에서 DB객체(테이블, 뷰, 함수, 트리거 등)를 생성, 변경,
   );
 
 테이블 정보 보기
-> describe test01;
-> describe test01;
-> desc test01; 
+> describe 테이블명;
+> desc 테이블명;
+예) describe test01;
+예) desc test01; 
 
 테이블 삭제하기
-> drop table test01;
-> drop table test01;
+> drop table 테이블명;
+예) drop table test01;
 
 ### 테이블 컬럼 옵션 
 
 #### null 허용
 데이터를 입력하지 않아도 된다.
 > create table test1 (
-  no int,
-  name varchar(20)
+    no int,
+    name varchar(20)
   );
   
 데이터 입력 테스트:
@@ -113,19 +111,19 @@ SQL 문에서 DB객체(테이블, 뷰, 함수, 트리거 등)를 생성, 변경,
 > create table test1(
   c1 int, 
   c2 float, 
-  c3 numeric(6,2),
-  c4 numeric
+  c3 numeric(6,2), /* 소수점 자릿수를 지정하면 부동소수점으로 사용 */
+  c4 numeric /* int와 같다 */
   );
   
 > insert into test1(c1) values(100);
-> insert into test1(c1) values(3.14); /* 소수점 짤림 */
-> insert into test1(c1) values(100.98); /*소수점 이하 반올림 하고 자름*/
+> insert into test1(c1) values(3.14); /* 소수점 이하 반올림하고 짜름 */
+> insert into test1(c1) values(100.98); /* 소수점 이하 반올림하고 짜름 */
 > insert into test1(c2) values(100);
 > insert into test1(c2) values(3.14);
 > insert into test1(c2) values(3.14159); 
 > insert into test1(c3) values(100);
-> insert into test1(c3) values(123456789); /* 입력 오류. 4자리 초과 */
-> insert into test1(c3) values(12345); /* 입력 오류. 4자리 초과 */
+> insert into test1(c3) values(123456789); /* 입력 오류. 5자리 초과 */
+> insert into test1(c3) values(12345); /* 입력 오류. 1자리 초과 */
 > insert into test1(c3) values(1234);
 > insert into test1(c3) values(3.14);
 > insert into test1(c3) values(3.14159); /* 2자리를 초과한 값은 반올림. */
@@ -135,21 +133,21 @@ SQL 문에서 DB객체(테이블, 뷰, 함수, 트리거 등)를 생성, 변경,
 > insert into test1(c4) values(12345678.90); /* 소수점은 반올림 처리됨 */
 
 #### char(n)
-- 최대 n자의 문자를 저장.
+- 최대 n개의 문자를 저장.
 - 0 <= n <= 255 
 - 고정 크기를 갖는다. 
-- 한 문자를 저장하더라도 5자를 저장할 크기를 사용한다.
+- 한 문자를 저장하더라도 n자를 저장할 크기를 사용한다.
 - 메모리 크기가 고정되어서 검색할 때 빠르다.  
 
 #### varchar(n)
-- 최대 n자의 문자를 저장.
+- 최대 n개의 문자를 저장.
 - 0 ~ 65535 바이트 크기를 갖는다.
 - n 값은 문자집합에 따라 최대 값이 다르다.
 - 만약 UTF-8로 지정된 경우 n은 최대 21845까지 지정할 수 있다.
 - 가변 크기를 갖는다.
-- 한 문자를 저장하면 한 문자 크기의 메모리를 차지한다.
+- 한 문자를 저장하면 한 문자 만큼 크기의 메모리를 차지한다.
 - 메모리 크기가 가변적이라서 데이터 위치를 찾을 때 시간이 오래 걸린다.
-- 그래서 검색할 때 위치를 계산해야 하기 때문에 검색 시 느리다.
+  그래서 검색할 때 위치를 계산해야 하기 때문에 검색 시 느리다.
 
 > create table test1(
   c1 char(5),
@@ -160,29 +158,29 @@ SQL 문에서 DB객체(테이블, 뷰, 함수, 트리거 등)를 생성, 변경,
 입력 테스트:
 > insert into test1(c1) values('');
 > insert into test1(c1) values('abcde');
-> insert into test1(c1) values('abcdefghi'); /* 입력 크기 초과 오류! */
 > insert into test1(c1) values('가나다라마'); /* 한글 영어 상관없이 5자 */
+> insert into test1(c1) values('abcdefghi'); /* 입력 크기 초과 오류! */
+> insert into test1(c1) values('가나다라마바'); /* 입력 크기 초과 오류! */
 > insert into test1(c2) values('');
 > insert into test1(c2) values('abcde');
 > insert into test1(c2) values('abcdefghi'); /* 입력 크기 초과 오류! */
-> insert into test1(c1) values('abcde');
 
-고정 크기와 가변 크기 비교 : 
-> insert into test1(c1) value('abc');
+고정 크기와 가변 크기 비교:
+> insert into test1(c1) values('abc');
 > insert into test1(c2) values('abc');
-> select * from test1 where c1 = 'abc'; 
-DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 검사하는 경우도 있다
-즉 c1='abc'에서는 데이터를 찾지 못하고, c1='abc  '여야만 데이터를 찾는 경우가 있다
-그러나 mysql은 고정 크기 컬럼이더라도 빈 자리를 무시하고 데이터를 찾는다
+> select * from test1 where c1='abc'; 
+DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈자리까지 검사하는 경우도 있다.
+즉 c1='abc'에서는 데이터를 찾지 못하고, c1='abc  '여야만 데이터를 찾는 경우가 있다.
+그러나 mysql은 고정크기 컬럼이더라도 빈자리를 무시하고 데이터를 찾는다.
 
 #### text(65535), mediumtext(약 1.6MB), longtext(약 2GB)
 - 긴 텍스트를 저장할 때 사용하는 컬럼 타입이다.
-- 오라클의 경우 long 타입과 CLOB(character large object) 타입이 있다
+- 오라클의 경우 long 타입과 CLOB(character large object) 타입이 있다.
 
 #### date
 - 날짜 정보를 저장할 때 사용한다.
 - 년,월,일 정보를 저장한다.
-- 오라클의 경우 날짜 뿐만 아니라 시간 정보도 저장한다
+- 오라클의 경우 날짜 뿐만 아니라 시간 정보도 저장한다.
 
 #### time
 - 시간 정보를 저장할 때 사용한다.
@@ -242,7 +240,7 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
 - 입력 테스트:
 > insert into test1(name,kor,eng,math) values('aaa', 100, 100, 100);
 > insert into test1(name,kor,eng,math) values('bbb', 90, 90, 90);
-> insert into test1(name,kor,eng,math) values('aaa', 100, 100, 100); /* 중복*/
+> insert into test1(name,kor,eng,math) values('aaa', 100, 100, 100); /* 중복 허용*/
 
 - PK를 지정한 후:
 > 컬럼명 타입 primary key
@@ -256,7 +254,7 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
 - 입력 테스트:
 > insert into test1(name,kor,eng,math) values('aaa', 100, 100, 100);
 > insert into test1(name,kor,eng,math) values('bbb', 90, 90, 90);
-> insert into test1(name,kor,eng,math) values('aaa', 100, 100, 100); /* 중복*/
+> insert into test1(name,kor,eng,math) values('aaa', 100, 100, 100); /* 중복 오류!*/
 
 
 - 한 개 이상의 컬럼을 PK로 지정하기
@@ -268,7 +266,8 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
   math int
   ); /* 실행 오류 */
 
-- 각 컬럼에 대해서 개별적으로 PK를 지정해서는 안된다. 
+- 두 개 이상의 컬럼을 묶어서 PK로 선언하고 싶다면 
+  각 컬럼에 대해서 개별적으로 PK를 지정해서는 안된다. 
 - 여러 개의 컬럼을 묶어서 PK로 지정하려면 별도의 문법을 사용해야 한다.
 > create table test1(
   name varchar(20),
@@ -283,17 +282,16 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
 > insert into test1(name, age, kor, eng, math) values('aa', 10, 100, 100, 100);
 > insert into test1(name, age, kor, eng, math) values('bb', 20, 90, 90, 90);
 > insert into test1(name, age, kor, eng, math) values('aa', 11, 88, 88, 88);
-> insert into test1(name, age, kor, eng, math) values('ab', 11, 88, 88, 88);
+> insert into test1(name, age, kor, eng, math) values('ab', 10, 88, 88, 88);
 
 /* 이름과 나이가 같으면 중복되기 때문에 입력 거절이다. */
-> insert into test1(name, age, kor, eng, math) values('ab', 11, 88, 88, 88);
+> insert into test1(name, age, kor, eng, math) values('aa', 10, 88, 88, 88);
 
 - 여러 개의 컬럼을 묶어서 PK로 사용하면 데이터를 다루기가 불편하다.
-- 즉 데이터를 찾을 때마다 name 과 age를 지정해야 한다 
-- 그래서 실무에서는 이런 경우 학번처럼 일련번호를 저장하는 임의의 컬럼을 만들어 PK로 사용한다.
-
+  즉 데이터를 찾을 때 마다 name과 age 값을 지정해야 한다.
+- 그래서 실무에서는 이런 경우 '학번'처럼 임의의 값을 저장하는 컬럼을 만들어 PK로 사용한다.
 > create table test1(
-  no int primary key,
+  no int primary key, /* 학번 */
   name varchar(20),
   age int,
   kor int,
@@ -309,12 +307,12 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
 /* 번호가 중복되었기 때문에 입력 거절 */
 > insert into test1(no,name,age,kor,eng,math) values(4,'d',21,81,81,81);
 
-/* 번호는 중복되지 않았지만, 값이 중복되는 경우를 막을 수 없다*/
+/* 번호는 중복되지 않았지만, name과 age값이 중복되는 경우를 막을 수 없다*/
 > insert into test1(no,name,age,kor,eng,math) values(5,'c',20,81,81,81);
 
 - 위와 같은 경우를 대비해 준비된 문법이 unique이다.
 - PK는 아니지만 PK처럼 중복을 허락하지 않는 컬럼을 지정할 때 사용한다.
-- 그래서 PK를 대신해서 사용할 수 있는 key라고 해서 "대안키"라고 부른다.
+- 그래서 PK를 대신해서 사용할 수 있는 key라고 해서 "대안키(alternate key)"라고 부른다.
 
 #### unique = alternate key(대안키)
 > create table test1(
@@ -324,15 +322,14 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
   kor int,
   eng int,
   math int,
-  constraint test1_uk unique (name, age),
-  fulltext index test1_name_idx (name)
+  constraint test1_uk unique (name, age)
   );
 
 - 입력 테스트:
- insert into test1(no,name,age,kor,eng,math) values(1,'a',10,90,90,90);
- insert into test1(no,name,age,kor,eng,math) values(2,'a',11,91,91,91);
- insert into test1(no,name,age,kor,eng,math) values(3,'b',11,81,81,81);
- insert into test1(no,name,age,kor,eng,math) values(4,'c',20,81,81,81);
+> insert into test1(no,name,age,kor,eng,math) values(1,'a',10,90,90,90);
+> insert into test1(no,name,age,kor,eng,math) values(2,'a',11,91,91,91);
+> insert into test1(no,name,age,kor,eng,math) values(3,'b',11,81,81,81);
+> insert into test1(no,name,age,kor,eng,math) values(4,'c',20,81,81,81);
 
 /* 번호가 중복되었기 때문에 입력 거절 */
 > insert into test1(no,name,age,kor,eng,math) values(4,'d',21,81,81,81);
@@ -346,15 +343,15 @@ DBMS 중에는 고정 크기인 컬럼의 값을 비교할 때 빈 자리까지 
 - 검색 조건으로 사용되는 컬럼은 정렬되어야만 데이터를 빨리 찾을 수 있다.
 - 특정 컬럼의 값을 A-Z 또는 Z-A로 정렬시키는 문법이 인덱스이다.
 ```
-create table test13(
+create table test1(
   no int primary key,
   name varchar(20),
   age int,
   kor int,
   eng int,
   math int,
-  constraint unique (name, age),
-  fulltext index (name)
+  constraint test1_uk unique (name, age),
+  fulltext index test1_name_idx (name)
 );
 
 insert into test1(no,name,age,kor,eng,math) values(1,'aaa',20,80,80,80);
@@ -404,7 +401,7 @@ alter table test1
 ```
 alter table test1
   add constraint test1_pk primary key (no),
-  add constraint test1_pk unique (name, age),
+  add constraint test1_uk unique (name, age),
   add fulltext index test1_name_idx (name);
 ```
 
@@ -448,17 +445,16 @@ create table test1(
 ``` 
 
 - 특정 컬럼의 값을 자동으로 증가되게 선언한다.
-- 단 반드시 primary key에 대해서 자동 증가 옵션을 붙일 수 있다.
+- 단 반드시 primary key여야 한다.
 ```
 alter table test1
-  modify column no int not null auto_increment; /*아직 no가 pk가 아니기 때문에 오류 */
-
-alter table test1
-  add constraint primary key (no); /*일단 no를 pk로 지정한다*/
+  modify column no int not null auto_increment; /* 아직 no가 pk가 아니기 때문에 오류*/
   
 alter table test1
-  modify column no int not null auto_increment; /*그 후 지정, 가능 */
+  add constraint primary key (no); /* 일단 no를 pk로 지정한다.*/
 
+alter table test1
+  modify column no int not null auto_increment; /* 그런 후 auto_increment를 지정한다.*/
 ```
 
 - 입력 테스트
@@ -508,7 +504,7 @@ create view worker
 - view가 참조하는 테이블에 데이터를 입력한 후 view를 조회하면?
   => 새로 추가된 컬럼이 함께 조회된다.
 - 뷰를 조회할 때 마다 매번 select 문장을 실행한다.
- => 미리 결과를 만들어 놓는 것이 아니다.
+  => 미리 결과를 만들어 놓는 것이 아니다.
 - 일종의 조회 함수 역할을 한다.
 - 목적은 복잡한 조회를 가상의 테이블로 표현할 수 있어 SQL문이 간결해진다.
 ```
@@ -520,10 +516,5 @@ select * from worker;
 ```
 drop view worker;
 ```
-
-
-
-
-
 
 
