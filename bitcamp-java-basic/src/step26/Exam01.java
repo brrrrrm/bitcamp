@@ -6,22 +6,35 @@ import java.util.Properties;
 
 public class Exam01 {
     static String fileName = "message";
-    static String country = "enUs";
+    static String userCountry = "US";
+    static String userLanguage = "en";
     static Properties label;
     
     static void init() throws Exception {
-        String value = System.getProperty("country");
-        System.out.println(value);
-        if (value != null) {
-            country = value;
+        if (System.getProperty("user.country") != null) {
+            userCountry = System.getProperty("user.country");
         }
+        if (System.getProperty("user.language")!= null) {
+            userLanguage = System.getProperty("user.language");
+        }
+        
         label = new Properties();
-        label.load(new FileReader(String.format("%s-%s.properties", fileName, country)));
+        label.load(new FileReader(String.format("%s-%s%s.properties", fileName, userLanguage, userCountry)));
     }
     
     public static void main(String[] args) throws Exception { 
-       
         init();
-        System.out.println("안녕하세요!");
+        //화면에 텍스트를 출력할 때 직접 입력한 값을 출력하는 것이 아니라 
+        //프로퍼티 파일에서 읽은 값을 출력한다
+        //다양한 언어로 출력하기 위함이다
+        //즉 다국어를 제공할 수 있도록 개발된 프로그램을 
+        //"국제화 "(i18n)라 한다 
+        System.out.println(label.get("welcome"));
+        
+        //지역화(l10n)
+        /*국제화를 지원하는 프로그램의 경우 메뉴명, 버튼명, 라벨명 등 
+         * 화면에서 출력하는 텍스트를 별도의 프로퍼티 파일에 저장한다
+         * 이 프로퍼티 파일에 저장된 데이터를 각각의 언어로 바꾸는 것을 지역화라 한다
+         */
     }
 }

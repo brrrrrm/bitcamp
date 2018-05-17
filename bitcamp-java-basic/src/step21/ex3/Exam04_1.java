@@ -21,7 +21,7 @@ public class Exam04_1 {
     public static void main(String[] args) {
         // 예외를 던질 수 있다고 선언된 메서드를 호출할 때
         // 그 예외를 처리하지 않으면 컴파일 오류가 발생한다.
-        m(1);
+//        m(1);
     }
 
 }

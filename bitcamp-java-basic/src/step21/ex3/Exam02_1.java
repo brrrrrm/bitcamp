@@ -47,7 +47,7 @@ public class Exam02_1 {
     }
     
     static void m5() throws Exception {
-        throw new String(); // 컴파일 오류!
+//        throw new String(); // 컴파일 오류!
         // throw 로 던질 수 있는 객체는 오직 java.lang.Throwable 타입만 가능하다.
     }
     
