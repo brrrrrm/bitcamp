@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Component;
 
+import bitcamp.java106.pms.domain.Member;
+
 @Component
 public class TeamMemberDao {
 
@@ -49,6 +51,13 @@ public class TeamMemberDao {
         }
     }
     
+    public List<Member> selectListWithEmail(String teamName) throws Exception {
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            return sqlSession.selectList(
+                    "bitcamp.java106.pms.dao.TeamMemberDao.selectListWithEmail", teamName);
+        }
+    }
+    
     public boolean isExist(String teamName, String memberId) throws Exception {
         try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
             HashMap<String,Object> paramMap = new HashMap<>();
@@ -62,6 +71,18 @@ public class TeamMemberDao {
             else 
                 return false;
         }
+    }
+
+    public int delete(String teamName) throws Exception{
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
+            HashMap<String,Object> paramMap = new HashMap<>();
+            paramMap.put("teamName", teamName);
+            
+            int count = sqlSession.delete(
+                    "bitcamp.java106.pms.dao.TeamMemberDao.delete", paramMap);
+            sqlSession.commit();
+            return count;
+        } 
     }
 }
 
