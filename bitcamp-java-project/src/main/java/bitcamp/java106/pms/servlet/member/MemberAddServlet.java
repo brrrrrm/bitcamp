@@ -1,18 +1,19 @@
-// Controller 규칙에 따라 메서드 작성
 package bitcamp.java106.pms.servlet.member;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+
 import bitcamp.java106.pms.dao.MemberDao;
 import bitcamp.java106.pms.domain.Member;
-import bitcamp.java106.pms.servlet.InitServlet;
+import bitcamp.java106.pms.servlet.support.WebApplicationContextUtils;
 
 @SuppressWarnings("serial")
 @WebServlet("/member/add")
@@ -22,7 +23,8 @@ public class MemberAddServlet extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-        memberDao = InitServlet.getApplicationContext().getBean(MemberDao.class);
+        ApplicationContext iocContainer = WebApplicationContextUtils.getApplicationContext(this.getServletContext());
+        memberDao = iocContainer.getBean(MemberDao.class);
     }
     
     @Override
@@ -30,40 +32,28 @@ public class MemberAddServlet extends HttpServlet {
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
         
-        request.setCharacterEncoding("UTF-8");
-        
-        Member member = new Member();
-        member.setId(request.getParameter("id"));
-        member.setEmail(request.getParameter("email"));
-        member.setPassword(request.getParameter("password"));
-
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset='UTF-8'>");
-        out.println("<meta http-equiv='Refresh' content='1;url=list'>");
-        
-        out.println("<title>회원 등록</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>회원 등록 결과</h1>");
         
         try {
+            Member member = new Member();
+            member.setId(request.getParameter("id"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
+            
             memberDao.insert(member);
-            out.println("<p>등록 성공!</p>");
+            response.sendRedirect("list");
+            
         } catch (Exception e) {
-            out.println("<p>등록 실패!</p>");
-            e.printStackTrace(out);
+            RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
+            request.setAttribute("error", e);
+            request.setAttribute("title", "회원 등록 실패!");
+            요청배달자.forward(request, response);
         }
-        out.println("</body>");
-        out.println("</html>");
     }
-
+    
 }
 
+//ver 39 - forward 적용
+//ver 38 - redirect 적용
 //ver 37 - 컨트롤러를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경

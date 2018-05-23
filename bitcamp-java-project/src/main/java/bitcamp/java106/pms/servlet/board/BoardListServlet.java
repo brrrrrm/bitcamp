@@ -4,15 +4,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.context.ApplicationContext;
 
 import bitcamp.java106.pms.dao.BoardDao;
 import bitcamp.java106.pms.domain.Board;
-import bitcamp.java106.pms.servlet.InitServlet;
+import bitcamp.java106.pms.domain.Member;
+import bitcamp.java106.pms.servlet.support.WebApplicationContextUtils;
 
 @SuppressWarnings("serial")
 @WebServlet("/board/list")
@@ -22,7 +27,8 @@ public class BoardListServlet extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-        boardDao = InitServlet.getApplicationContext().getBean(BoardDao.class);
+        ApplicationContext iocContainer = WebApplicationContextUtils.getApplicationContext(this.getServletContext());
+        boardDao = iocContainer.getBean(BoardDao.class);
     }
     
     @Override
@@ -42,6 +48,17 @@ public class BoardListServlet extends HttpServlet {
         out.println("<title>게시물 목록</title>");
         out.println("</head>");
         out.println("<body>");
+        
+        HttpSession session = request.getSession();
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        out.println("<div id='header'>");
+        if (loginUser != null) {
+            out.printf("   %s\n", loginUser.getId());
+            out.println("<a href='../auth/logout'>로그아웃</a>");
+        } else {
+            out.println("<a href='../auth/login'>로그인</a>");
+        }
+        out.println("</div>");
         out.println("<h1>게시물 목록</h1>");
         try {
             List<Board> list = boardDao.selectList();
@@ -61,15 +78,21 @@ public class BoardListServlet extends HttpServlet {
                 out.println("</tr>");
             }
             out.println("</table>");
+            
         } catch (Exception e) {
-            out.println("<p>목록 가져오기 실패!</p>");
-            e.printStackTrace(out);
+            RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
+            request.setAttribute("error", e);
+            request.setAttribute("title", "게시물 목록조회 실패!");
+            // 다른 서블릿으로 실행을 위임할 때,
+            // 이전까지 버퍼로 출력한 데이터는 버린다.
+            요청배달자.forward(request, response);
         }
         out.println("</body>");
         out.println("</html>");
     }
 }
 
+//ver 39 - forward 적용
 //ver 37 - BoardListController를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경
