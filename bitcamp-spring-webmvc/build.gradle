@@ -1,0 +1,47 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    id 'war'
+    
+    id 'eclipse-wtp'
+}
+
+// 소스 파일에서 사용하는 문자표(character set)지정
+// 지정하지 않으면 기본으로 ISO-8859-1이라 간주된다
+//compileJava.options.encoding="UTF-8"
+
+compileJava{
+    options.encoding ="UTF-8"
+}
+
+eclipse {
+    wtp {
+        facet {
+            facet name : 'jst.web', version : '3.1'
+        }
+    }
+}
+
+dependencies {
+    //spring context 라이브러리 가져오기
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.6.RELEASE'
+    
+    //JSP확장 태그 JSTL 라이브러리 
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    
+    // This dependency is found on compile classpath of this component and consumers.
+    compile 'com.google.guava:guava:23.0'
+
+    // Use JUnit test framework
+    testCompile 'junit:junit:4.12'
+    
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
